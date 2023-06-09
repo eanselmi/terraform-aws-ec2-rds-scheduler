@@ -1,4 +1,4 @@
-# Terraform module to easily schedule ec2 and rds instances stop/start.
+## Terraform module to easily schedule ec2 and rds instances stop/start.
 
 ![image](./images/savings.jpg)
 
@@ -8,7 +8,7 @@
 
 # How to use it
 
-1. Clone the repository and reference the module in your Terraform code.
+1. Clone the repository or set the source directly against this github reposiroty in your Terraform code.
    <br/>
 
 Example:
@@ -78,10 +78,10 @@ rds_start_stop_schedules = {
 
 <br/>
 
-## Any ideas, corrections, or feedback are most welcome!
+### Any ideas, corrections, or feedback are most welcome!
 
 <br/>
 
-## If this Terraform module was helpful for you, please let me know. You can find me on LinkedIn.
+### If this Terraform module was helpful for you, please let me know. You can find me on LinkedIn.
 
 https://www.linkedin.com/in/nazareno-anselmi/
