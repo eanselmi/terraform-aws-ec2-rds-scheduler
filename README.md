@@ -1,4 +1,8 @@
-## Terraform module to easily schedule ec2 and rds instances stop/start.
+<!-- markdownlint-disable -->
+
+# Terraform module to easily schedule EC2 and RDS instances stop/start [![Latest Release](https://img.shields.io/github/v/release/eanselmi/ec2-rds-scheduler.svg)](https://github.com/cloudposse/terraform-aws-eks-cluster/releases/latest)
+
+<!-- markdownlint-restore -->
 
 ![image](./images/savings.jpg)
 
