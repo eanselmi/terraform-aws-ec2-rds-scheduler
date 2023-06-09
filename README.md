@@ -25,6 +25,16 @@ module "ec2-rds-scheduler" {
 }
 ```
 
+or
+
+```
+module "ec2-rds-scheduler" {
+  source = "https://github.com/eanselmi/ec2-rds-scheduler?ref=tags/1.0.0"
+  ec2_start_stop_schedules = var.ec2_start_stop_schedules
+  rds_start_stop_schedules = var.rds_start_stop_schedules
+}
+```
+
 2. Create in your code the following variables or modify directly the variables in the module if you don't want to add variables in your code.
 
 ```
