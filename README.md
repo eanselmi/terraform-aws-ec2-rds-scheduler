@@ -29,11 +29,13 @@ or
 
 ```
 module "ec2-rds-scheduler" {
-  source = "https://github.com/eanselmi/ec2-rds-scheduler?ref=tags/1.0.0"
+  source = "github.com/eanselmi/ec2-rds-scheduler?ref=1.0.0"
   ec2_start_stop_schedules = var.ec2_start_stop_schedules
   rds_start_stop_schedules = var.rds_start_stop_schedules
 }
 ```
+
+Note: You can specify the module version here if you don't want to use the latest version. In this example, we use the 1.0.0 version.
 
 2. Create in your code the following variables or modify directly the variables in the module if you don't want to add variables in your code.
 
