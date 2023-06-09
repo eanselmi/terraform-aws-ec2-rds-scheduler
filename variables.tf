@@ -12,3 +12,5 @@ variable "rds_start_stop_schedules" {
   type        = map(map(string))
   default     = {}
 }
+
+
