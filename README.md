@@ -86,6 +86,8 @@ rds_start_stop_schedules = {
 
 ```
 
+4. Apply and enjoy.
+
 <br/>
 
 ## IMPORTANT: the time must be set in UTC.
