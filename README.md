@@ -21,7 +21,7 @@
 
 ![image](./images/resources.jpg)
 
-## Eventbridge schedules will trigger the Lambdas to start/stop the instances based on a schedule defined by ourself.
+## Eventbridge schedules will trigger the Lambdas to start/stop the instances based on our schedule.
 
 <br/>
 
