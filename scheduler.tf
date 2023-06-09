@@ -29,7 +29,7 @@ resource "aws_scheduler_schedule" "ec2_start" {
 }
 
 
-resource "aws_scheduler_schedule" "rds_dev_shutdown" {
+resource "aws_scheduler_schedule" "rds_shutdown" {
   for_each   = var.rds_start_stop_schedules
   name       = "rds_shutdown_${each.key}"
   group_name = "default"
