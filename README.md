@@ -45,7 +45,7 @@ or
 
 ```
 module "ec2-rds-scheduler" {
-  source = "github.com/eanselmi/ec2-rds-scheduler?ref=1.0.0"
+  source = "github.com/eanselmi/ec2-rds-scheduler?ref=v1.0.0"
   ec2_start_stop_schedules = var.ec2_start_stop_schedules
   rds_start_stop_schedules = var.rds_start_stop_schedules
 }
