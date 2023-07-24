@@ -1,7 +1,8 @@
 resource "aws_scheduler_schedule" "ec2_shutdown" {
-  for_each   = var.ec2_start_stop_schedules
-  name       = "ec2_shutdown_${each.key}"
-  group_name = "default"
+  for_each                     = var.ec2_start_stop_schedules
+  name                         = "ec2_shutdown_${each.key}"
+  schedule_expression_timezone = var.timezone
+  group_name                   = "default"
   flexible_time_window {
     mode = "OFF"
   }
@@ -14,8 +15,10 @@ resource "aws_scheduler_schedule" "ec2_shutdown" {
 }
 
 resource "aws_scheduler_schedule" "ec2_start" {
-  for_each   = var.ec2_start_stop_schedules
-  name       = "ec2_start_${each.key}"
+  for_each                     = var.ec2_start_stop_schedules
+  name                         = "ec2_start_${each.key}"
+  schedule_expression_timezone = var.timezone
+
   group_name = "default"
   flexible_time_window {
     mode = "OFF"
@@ -30,8 +33,10 @@ resource "aws_scheduler_schedule" "ec2_start" {
 
 
 resource "aws_scheduler_schedule" "rds_shutdown" {
-  for_each   = var.rds_start_stop_schedules
-  name       = "rds_shutdown_${each.key}"
+  for_each                     = var.rds_start_stop_schedules
+  name                         = "rds_shutdown_${each.key}"
+  schedule_expression_timezone = var.timezone
+
   group_name = "default"
   flexible_time_window {
     mode = "OFF"
@@ -45,8 +50,10 @@ resource "aws_scheduler_schedule" "rds_shutdown" {
 }
 
 resource "aws_scheduler_schedule" "rds_start" {
-  for_each   = var.rds_start_stop_schedules
-  name       = "rds_start_${each.key}"
+  for_each                     = var.rds_start_stop_schedules
+  name                         = "rds_start_${each.key}"
+  schedule_expression_timezone = var.timezone
+
   group_name = "default"
   flexible_time_window {
     mode = "OFF"

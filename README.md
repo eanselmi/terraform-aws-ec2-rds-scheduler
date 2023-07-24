@@ -27,10 +27,11 @@
 
 # Inputs
 
-| Name                     | Description                                              | Type               | Default | Required |
-| ------------------------ | -------------------------------------------------------- | ------------------ | ------- | :------: |
-| ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances | `map(map(string))` | `{}`    |    no    |
-| rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances | `map(map(string))` | `{}`    |    no    |
+| Name                     | Description                                                     | Type               | Default | Required |
+| ------------------------ | --------------------------------------------------------------- | ------------------ | ------- | :------: |
+| ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances        | `map(map(string))` | `{}`    |    no    |
+| rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances        | `map(map(string))` | `{}`    |    no    |
+| timezone                 | Timezone for Schedules (i.e., "America/Argentina/Buenos_Aires") | `map(map(string))` | `UTC`   |    no    |
 
 <br/>
 
@@ -47,6 +48,7 @@ module "ec2-rds-scheduler" {
   source                   = "../../modules/ec2-rds-scheduler"
   ec2_start_stop_schedules = var.ec2_start_stop_schedules
   rds_start_stop_schedules = var.rds_start_stop_schedules
+  timezone                 = var.timezone
 }
 ```
 
@@ -54,13 +56,15 @@ or
 
 ```
 module "ec2-rds-scheduler" {
-  source = "github.com/eanselmi/ec2-rds-scheduler?ref=v1.0.0"
+  source = "github.com/eanselmi/ec2-rds-scheduler?ref=v1.0.1"
   ec2_start_stop_schedules = var.ec2_start_stop_schedules
   rds_start_stop_schedules = var.rds_start_stop_schedules
+  timezone                 = var.timezone
+
 }
 ```
 
-Note: If you prefer to utilize a specific module version instead of the latest version, you have the option to specify it at this point. For instance, in this particular example, we employ version 1.0.0.
+Note: If you prefer to utilize a specific module version instead of the latest version, you have the option to specify it at this point. For instance, in this particular example, we employ version 1.0.1.
 
 Please be advised that the inclusion of ec2_start_stop_schedules and rds_start_stop_schedules is entirely optional. You may choose to add either of them based on your specific requirements. In the event that you decide not to include any of these schedules, only the Lambda Functions and IAM roles will be deployed.
 
@@ -80,6 +84,11 @@ variable "rds_start_stop_schedules" {
   description = "Schedules and tags to turn off and turn on RDS instances"
   type        = map(map(string))
   default     = {}
+}
+
+variable "timezone" {
+  description = "Timezone for Schedules"
+  type        = string
 }
 ```
 
@@ -115,9 +124,9 @@ rds_start_stop_schedules = {
   }
 }
 
-```
+timezone = "America/Argentina/Buenos_Aires"
 
-## IMPORTANT: It is crucial to note that the time must be set in UTC.
+```
 
 <br/>
 

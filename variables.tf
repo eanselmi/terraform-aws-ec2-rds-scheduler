@@ -13,4 +13,10 @@ variable "rds_start_stop_schedules" {
   default     = {}
 }
 
+variable "timezone" {
+  description = "Timezone for schedule"
+  type        = string
+  default     = "UTC"
+}
+
 
