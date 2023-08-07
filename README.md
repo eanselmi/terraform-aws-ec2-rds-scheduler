@@ -4,7 +4,7 @@
 
 <!-- markdownlint-restore -->
 
-![image](./images/savings.jpg)
+![image](https://i.ibb.co/M7GW2mq/savings.jpg)
 
 ## This module is designed to assist you in cost reduction by implementing scheduled shutdowns for EC2, ASG and RDS instances during periods of inactivity, and subsequently, powering them back on according to the specified schedule.
 
@@ -19,7 +19,7 @@
 - Eventbridge schedules
 - Six Lambda Functions (two for EC2 instances, two for ASG and two for RDS instances)
 
-![image](./images/resources.jpg)
+![image](https://i.ibb.co/ZVBGp8D/resources.jpg)
 
 ## The EventBridge schedules will serve as triggers for the Lambdas, enabling the start/stop actions on instances as per the specified schedule.
 
@@ -27,12 +27,12 @@
 
 # Inputs
 
-| Name                     | Description                                                           | Type               | Default | Required |
-| ------------------------ | --------------------------------------------------------------------- | ------------------ | ------- | :------: |
-| ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances              | `map(map(string))` | `{}`    |    no    |
-| rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances              | `map(map(string))` | `{}`    |    no    |
+| Name                     | Description                                                          | Type               | Default | Required |
+| ------------------------ | -------------------------------------------------------------------- | ------------------ | ------- | :------: |
+| ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances             | `map(map(string))` | `{}`    |    no    |
+| rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances             | `map(map(string))` | `{}`    |    no    |
 | asg_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances with an ASG | `map(map(string))` | `{}`    |    no    |
-| timezone                 | Timezone for Schedules (i.e., "America/Argentina/Buenos_Aires")       | `map(map(string))` | `UTC`   |    no    |
+| timezone                 | Timezone for Schedules (i.e., "America/Argentina/Buenos_Aires")      | `map(map(string))` | `UTC`   |    no    |
 
 <br/>
 
