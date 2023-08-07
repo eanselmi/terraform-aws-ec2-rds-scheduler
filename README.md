@@ -31,7 +31,7 @@
 | ------------------------ | --------------------------------------------------------------------- | ------------------ | ------- | :------: |
 | ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances              | `map(map(string))` | `{}`    |    no    |
 | rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances              | `map(map(string))` | `{}`    |    no    |
-| asg_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances under an ASG | `map(map(string))` | `{}`    |    no    |
+| asg_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances with an ASG | `map(map(string))` | `{}`    |    no    |
 | timezone                 | Timezone for Schedules (i.e., "America/Argentina/Buenos_Aires")       | `map(map(string))` | `UTC`   |    no    |
 
 <br/>
