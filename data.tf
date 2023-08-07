@@ -23,3 +23,15 @@ data "archive_file" "rds_python_start" {
   output_path = "${path.module}/resources/rds_start.zip"
 }
 
+data "archive_file" "asg_shutdown" {
+  type        = "zip"
+  source_file = "${path.module}/resources/asg_shutdown.py"
+  output_path = "${path.module}/resources/asg_shutdown.zip"
+}
+
+data "archive_file" "asg_start" {
+  type        = "zip"
+  source_file = "${path.module}/resources/asg_start.py"
+  output_path = "${path.module}/resources/asg_start.zip"
+}
+

@@ -37,6 +37,25 @@ resource "aws_lambda_function" "rds_start" {
   timeout       = 30
 }
 
+resource "aws_lambda_function" "asg_shutdown" {
+  filename      = "${path.module}/resources/asg_shutdown.zip"
+  function_name = "asg_shutdown"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "asg_shutdown.lambda_handler"
+  runtime       = "python3.8"
+  timeout       = 30
+}
+
+resource "aws_lambda_function" "asg_start" {
+  filename      = "${path.module}/resources/asg_start.zip"
+  function_name = "asg_start"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "asg_start.lambda_handler"
+  runtime       = "python3.8"
+  timeout       = 30
+}
+
+
 
 
 

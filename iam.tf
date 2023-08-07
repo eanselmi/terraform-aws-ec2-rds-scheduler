@@ -44,7 +44,11 @@ resource "aws_iam_role_policy" "lambda_policy" {
                 "rds:DescribeDBInstances",
                 "rds:StopDBInstance",
                 "rds:StartDBInstance",
-                "rds:ListTagsForResource"
+                "rds:ListTagsForResource",
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:SuspendProcesses",
+                "autoscaling:ResumeProcesses"
             ],
             "Resource": "*"
         }

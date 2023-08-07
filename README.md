@@ -1,12 +1,12 @@
 <!-- markdownlint-disable -->
 
-# This Terraform module provides a convenient solution for scheduling the stop and start actions of EC2 and RDS instances. [![Latest Release](https://img.shields.io/github/v/release/eanselmi/ec2-rds-scheduler.svg)](https://github.com/eanselmi/ec2-rds-scheduler/releases/latest)
+# This Terraform module provides a convenient solution for scheduling the stop and start actions of EC2, ASG and RDS instances. [![Latest Release](https://img.shields.io/github/v/release/eanselmi/ec2-rds-scheduler.svg)](https://github.com/eanselmi/ec2-rds-scheduler/releases/latest)
 
 <!-- markdownlint-restore -->
 
 ![image](./images/savings.jpg)
 
-## This module is designed to assist you in cost reduction by implementing scheduled shutdowns for ec2 and rds instances during periods of inactivity, and subsequently, powering them back on according to the specified schedule.
+## This module is designed to assist you in cost reduction by implementing scheduled shutdowns for EC2, ASG and RDS instances during periods of inactivity, and subsequently, powering them back on according to the specified schedule.
 
 <br/>
 
@@ -17,7 +17,7 @@
 - IAM Roles for Eventbridge to invoke Lambda Functions
 - IAM Roles for Lambda Functions to start/stop EC2 and RDS instances
 - Eventbridge schedules
-- Four Lambda Functions (two for EC2 instances and two for RDS instances)
+- Six Lambda Functions (two for EC2 instances, two for ASG and two for RDS instances)
 
 ![image](./images/resources.jpg)
 
@@ -27,11 +27,12 @@
 
 # Inputs
 
-| Name                     | Description                                                     | Type               | Default | Required |
-| ------------------------ | --------------------------------------------------------------- | ------------------ | ------- | :------: |
-| ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances        | `map(map(string))` | `{}`    |    no    |
-| rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances        | `map(map(string))` | `{}`    |    no    |
-| timezone                 | Timezone for Schedules (i.e., "America/Argentina/Buenos_Aires") | `map(map(string))` | `UTC`   |    no    |
+| Name                     | Description                                                           | Type               | Default | Required |
+| ------------------------ | --------------------------------------------------------------------- | ------------------ | ------- | :------: |
+| ec2_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances              | `map(map(string))` | `{}`    |    no    |
+| rds_start_stop_schedules | Schedules and tags to turn off and turn on RDS instances              | `map(map(string))` | `{}`    |    no    |
+| asg_start_stop_schedules | Schedules and tags to turn off and turn on EC2 instances under an ASG | `map(map(string))` | `{}`    |    no    |
+| timezone                 | Timezone for Schedules (i.e., "America/Argentina/Buenos_Aires")       | `map(map(string))` | `UTC`   |    no    |
 
 <br/>
 
@@ -48,6 +49,7 @@ module "ec2-rds-scheduler" {
   source                   = "../../modules/ec2-rds-scheduler"
   ec2_start_stop_schedules = var.ec2_start_stop_schedules
   rds_start_stop_schedules = var.rds_start_stop_schedules
+  asg_start_stop_schedules = var.asg_start_stop_schedules
   timezone                 = var.timezone
 }
 ```
@@ -57,17 +59,18 @@ or
 ```
 module "ec2-rds-scheduler" {
   source                   = "eanselmi/ec2-rds-scheduler/aws"
-  version                  = "1.0.1"
+  version                  = "1.0.2"
   ec2_start_stop_schedules = var.ec2_start_stop_schedules
   rds_start_stop_schedules = var.rds_start_stop_schedules
+  asg_start_stop_schedules = var.asg_start_stop_schedules
   timezone                 = var.timezone
 
 }
 ```
 
-Note: If you prefer to utilize a specific module version instead of the latest version, you have the option to specify it at this point. For instance, in this particular example, we employ version 1.0.1.
+Note: If you prefer to utilize a specific module version instead of the latest version, you have the option to specify it at this point. For instance, in this particular example, we employ version 1.0.2.
 
-Please be advised that the inclusion of ec2_start_stop_schedules and rds_start_stop_schedules is entirely optional. You may choose to add either of them based on your specific requirements. In the event that you decide not to include any of these schedules, only the Lambda Functions and IAM roles will be deployed.
+Please be advised that the inclusion of ec2_start_stop_schedules, asg_start_stop_schedules and rds_start_stop_schedules is entirely optional. You may choose to add either of them based on your specific requirements. In the event that you decide not to include any of these schedules, only the Lambda Functions and IAM roles will be deployed.
 
 <br/>
 
@@ -87,6 +90,12 @@ variable "rds_start_stop_schedules" {
   default     = {}
 }
 
+variable "asg_start_stop_schedules" {
+  description = "Schedules and tags to turn off and turn on EC2 instances using an ASG"
+  type        = map(map(string))
+  default     = {}
+}
+
 variable "timezone" {
   description = "Timezone for Schedules"
   type        = string
@@ -95,7 +104,7 @@ variable "timezone" {
 
 <br/>
 
-### 3. By utilizing tfvars or defaults in the previous variable declaration, or by directly modifying the module if you skipped step 2, you can specify the schedules for turning off and on ec2 and rds instances. In this example, we schedule ec2 instances in the dev environment to turn off at 1:49 am UTC and turn on at 4:45 am UTC. This schedule applies to all ec2 instances tagged with env:dev. Similarly, for the production environment, we schedule ec2 instances to turn off at 5:10 am UTC and turn on at 8:44 am UTC. This schedule affects only instances with the tag env:prod. Lastly, RDS instances tagged with env:dev will be turned off at 3:50 am UTC and turned on at 9:45 am UTC. You have the flexibility to add as many schedules as required.
+### 3. By utilizing tfvars or defaults in the previous variable declaration, or by directly modifying the module if you skipped step 2, you can specify the schedules for turning off and on EC2 and RDS instances. In this example, we schedule EC2 instances in the dev environment to turn off at 1:49 am and turn on at 4:45 am. This schedule applies to all EC2 instances tagged with env:dev. Similarly, for the production environment, we schedule EC2 instances to turn off at 5:10 am and turn on at 8:44 am. This schedule affects only instances with the tag env:prod. Also, RDS instances tagged with env:dev will be turned off at 3:50 am and turned on at 9:45 am. Lastly, EC2 instances under all ASG with tag env:dev will be scheduled to be turned off and on. You have the flexibility to add as many schedules as required. In this examples the timezone is set to "America/Argentina/Buenos_Aires".
 
 <br/>
 
@@ -120,6 +129,15 @@ rds_start_stop_schedules = {
   "rds_schedule_dev" = {
     "cron_stop"  = "cron(50 3 ? * * *)"
     "cron_start" = "cron(45 9 ? * * *)"
+    "tag_key"    = "env"
+    "tag_value"  = "dev"
+  }
+}
+
+asg_start_stop_schedules = {
+  "asg_schedule_dev" = {
+    "cron_stop"  = "cron(30 22 ? * * *)"
+    "cron_start" = "cron(40 22 ? * * *)"
     "tag_key"    = "env"
     "tag_value"  = "dev"
   }
