@@ -78,7 +78,7 @@ resource "aws_scheduler_schedule" "asg_shutdown" {
   target {
     arn      = aws_lambda_function.asg_shutdown.arn
     role_arn = aws_iam_role.cloudwatch_events_role.arn
-    input    = format("{\n \"tagKey\": %s,\n \"tagValue\": %s\n}", jsonencode("tag:${each.value["tag_key"]}"), jsonencode(each.value["tag_value"]))
+    input    = format("{\n \"tagKey\": %s,\n \"tagValue\": %s\n}", jsonencode(each.value["tag_key"]), jsonencode(each.value["tag_value"]))
   }
 }
 
