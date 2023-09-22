@@ -55,6 +55,24 @@ resource "aws_lambda_function" "asg_start" {
   timeout       = 30
 }
 
+resource "aws_lambda_function" "aurora_shutdown" {
+  filename      = "${path.module}/resources/aurora_shutdown.zip"
+  function_name = "aurora_shutdown"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "aurora_shutdown.lambda_handler"
+  runtime       = "python3.8"
+  timeout       = 30
+}
+
+resource "aws_lambda_function" "aurora_start" {
+  filename      = "${path.module}/resources/aurora_start.zip"
+  function_name = "aurora_start"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "aurora_start.lambda_handler"
+  runtime       = "python3.8"
+  timeout       = 30
+}
+
 
 
 

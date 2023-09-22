@@ -97,3 +97,35 @@ resource "aws_scheduler_schedule" "asg_start" {
     input    = format("{\n \"tag_key\": %s,\n \"tag_value\": %s\n}", jsonencode(each.value["tag_key"]), jsonencode(each.value["tag_value"]))
   }
 }
+
+resource "aws_scheduler_schedule" "aurora_shutdown" {
+  for_each                     = var.aurora_start_stop_schedules
+  name                         = "aurora_shutdown_${each.key}"
+  schedule_expression_timezone = var.timezone
+  group_name                   = "default"
+  flexible_time_window {
+    mode = "OFF"
+  }
+  schedule_expression = each.value["cron_stop"]
+  target {
+    arn      = aws_lambda_function.aurora_shutdown.arn
+    role_arn = aws_iam_role.cloudwatch_events_role.arn
+    input    = format("{\n \"tagKey\": %s,\n \"tagValue\": %s\n}", jsonencode(each.value["tag_key"]), jsonencode(each.value["tag_value"]))
+  }
+}
+
+resource "aws_scheduler_schedule" "aurora_start" {
+  for_each                     = var.aurora_start_stop_schedules
+  name                         = "aurora_start_${each.key}"
+  schedule_expression_timezone = var.timezone
+  group_name                   = "default"
+  flexible_time_window {
+    mode = "OFF"
+  }
+  schedule_expression = each.value["cron_start"]
+  target {
+    arn      = aws_lambda_function.aurora_start.arn
+    role_arn = aws_iam_role.cloudwatch_events_role.arn
+    input    = format("{\n \"tagKey\": %s,\n \"tagValue\": %s\n}", jsonencode(each.value["tag_key"]), jsonencode(each.value["tag_value"]))
+  }
+}

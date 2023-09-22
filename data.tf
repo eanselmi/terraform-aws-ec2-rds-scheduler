@@ -35,3 +35,15 @@ data "archive_file" "asg_start" {
   output_path = "${path.module}/resources/asg_start.zip"
 }
 
+data "archive_file" "aurora_shutdown" {
+  type        = "zip"
+  source_file = "${path.module}/resources/aurora_shutdown.py"
+  output_path = "${path.module}/resources/aurora_shutdown.zip"
+}
+
+data "archive_file" "aurora_start" {
+  type        = "zip"
+  source_file = "${path.module}/resources/aurora_start.py"
+  output_path = "${path.module}/resources/aurora_start.zip"
+}
+

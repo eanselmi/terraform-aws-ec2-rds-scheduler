@@ -16,7 +16,12 @@ variable "asg_start_stop_schedules" {
   description = "Schedules and tags to power off and power on EC2 instances with ASG"
   type        = map(map(string))
   default     = {}
+}
 
+variable "aurora_start_stop_schedules" {
+  description = "Schedules and tags to power off and power on Aurora clusters"
+  type        = map(map(string))
+  default     = {}
 }
 
 variable "timezone" {
