@@ -1,16 +1,19 @@
 import boto3
 
-def get_asg_by_tag(tag_key, tag_value):    
+def resume_processes_for_auto_scaling_groups_with_tag(tag_key, tag_value):
     asg_client = boto3.client('autoscaling')
     response = asg_client.describe_auto_scaling_groups()
-    for asg in response['AutoScalingGroups']:
-        tags = {tag['Key']: tag['Value'] for tag in asg.get('Tags', [])}
-        if tags.get(tag_key) == tag_value:
-            return asg['AutoScalingGroupName']
+    groups_to_resume = []
 
-def enable_asg(asg_name):    
-    asg_client = boto3.client('autoscaling')
-    asg_client.resume_processes(AutoScalingGroupName=asg_name) 
+    for group in response['AutoScalingGroups']:
+        for tag in group['Tags']:
+            if tag['Key'] == tag_key and tag['Value'] == tag_value:
+                groups_to_resume.append(group['AutoScalingGroupName'])
+
+    for group_name in groups_to_resume:
+        asg_client.resume_processes(AutoScalingGroupName=group_name)
+        print(f"Habilitando procesos para el grupo de Auto Scaling: {group_name}")
+
 
 def start_instances_with_tag(tag_key, tag_value):    
     ec2 = boto3.resource('ec2')
@@ -25,12 +28,8 @@ def lambda_handler(event, context):
     tag_key = event.get('tag_key')
     tag_value = event.get('tag_value')
 
-    asg_name = get_asg_by_tag(tag_key, tag_value)
-    if not asg_name:
-        print(f"No ASG found with tag {tag_key}={tag_value}.")
-    else:
-        start_instances_with_tag(tag_key, tag_value)
-        enable_asg(asg_name)        
+    start_instances_with_tag(tag_key, tag_value)
+    resume_processes_for_auto_scaling_groups_with_tag(tag_key, tag_value)
 
     return {
         'statusCode': 200,
